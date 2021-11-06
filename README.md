@@ -1,5 +1,5 @@
 # portofolio
-# Global Terrorism Database
+# Analysis on Global Terrorism Database
 More than 180,000 terrorist attacks worldwide,1970-2017
 
 This study aims to discover which country has the most terrorist attack for the past 10 years based on the global terrorism database (GTD) produced by the National Consortium for the Study of Terrorism and Responses to Terrorism (START).
@@ -119,7 +119,48 @@ top_10_countries %>%
 #arranging the graph using patchwork
 P1/P2
 ```
+![image](https://user-images.githubusercontent.com/90851787/140603898-337e5fd1-2fff-4fbe-b174-576ae76452ef.png)
 
+As can be seen from the graph,Middle East and North Africa have the most number of attacks in the past 10 years, with the total of 35,862 attacks from 2008 to 2017. This could be explained by the second graph that shows majority of countries with the highest number of cases such as Iraq and Yemen are located in Middle East. It is followed by south Asia country such as India and Pakistan which also hold great contribution in the number of terrorist attack around the world. 
+
+# Checking how big is the contribution of top 10 countries on the number of cases
+in this session, we use cumulative percentage to see the effect of these 10 countries
+```{r}
+terrorist_attacks_by_country <- global_terroris_data %>%
+  group_by(country_txt) %>%
+  summarise(Frequency = n()) %>%
+  arrange(desc(Frequency)) %>% 
+  mutate(Cummulative_Percentage = cumsum(Frequency)*100/nrow(global_terroris_data)) %>% 
+  head(10)
+terrorist_attacks_by_country 
+```
+![image](https://user-images.githubusercontent.com/90851787/140604016-be4fe4f3-00a0-4977-a5c4-ebb8e056955e.png)
+
+As seen from the result, these top 10 countries play really huge contribution to the number of cases, which is approximately 75% of the total terorrist attacks that happen around the world.
+
+# Exploring Cases by year the attacks happen
+```{r}
+reported_year_overall <- global_terroris_data%>%
+  group_by(iyear) %>%
+  summarise(count = n()) %>%
+  ggplot(aes(x=factor(iyear), y = count)) + 
+  geom_bar(stat='identity', fill = "#2B60DE") +
+  geom_text(aes(label=count), position=position_dodge(width=0.5), vjust= -0.5, size = 3) +
+  xlab("Year") +
+  ylab("Number of Cases") +
+  ggtitle("Worldwide") +
+  theme_bw()+
+  theme(
+    legend.title = element_blank(),
+    plot.title = element_text(size = 10, hjust = -0.001, face ="bold"),
+    axis.title = element_text(size = 9),
+    axis.text = element_text(size = 9)
+  )
+reported_year_overall
+```
+![image](https://user-images.githubusercontent.com/90851787/140604415-ee85ea1f-8ea3-4d19-b933-646319e53d96.png)
+
+As seen from the bar chart, most cases of terrorist attacks ever recorded were in a year of 2014 (16,903 cases), followed by  2015,2016 and 2017, with the total of 14965,13587 and 10900 respectively. Looking at the graph, although there was a decrease on the trend after the year of 2014, the number of cases were still considered high compared to the year of 2018 to 2011 which were around 50% lower compared to 2017.
 
 Reference:
 National Consortium for the Study of Terrorism and Responses to Terrorism (START), University of Maryland. (2018). The Global Terrorism Database (GTD) [Data file]. Retrieved from https://www.start.umd.edu/gtd
