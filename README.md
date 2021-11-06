@@ -12,3 +12,6 @@ Data Content:
 * Time period: 1970-2017, except 1993
 * Unit of analysis: Attack
 * Variables: >100 variables on location, tactics, perpetrators, targets, and outcomes
+
+Reference:
+National Consortium for the Study of Terrorism and Responses to Terrorism (START), University of Maryland. (2018). The Global Terrorism Database (GTD) [Data file]. Retrieved from https://www.start.umd.edu/gtd
